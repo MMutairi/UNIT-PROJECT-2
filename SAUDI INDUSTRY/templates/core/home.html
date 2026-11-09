@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | SAUDI INDUSTRY{% endblock %}
+
+{% block content %}
+
+<section class="si-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+
+                <span class="si-hero-label">
+                    The Future of Manufacturing
+                </span>
+
+                <h1 class="si-hero-title">
+                    Made in Saudi Arabia.
+                    <br>
+                    Built for the Future.
+                </h1>
+
+                <p class="si-hero-description">
+                    Discover the industries, companies,
+                    and technologies powering Saudi Arabia's
+                    industrial transformation.
+                </p>
+
+                <div class="mt-4">
+                    <a href="{% url 'catalog:industries' %}"
+                       class="btn si-primary-btn">
+                        Explore Industries
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
