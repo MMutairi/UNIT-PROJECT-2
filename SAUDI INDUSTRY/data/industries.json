@@ -1,1 +1,52 @@
-{}
+{
+  "industries": [
+    {
+      "id": 1,
+      "slug": "petrochemicals",
+      "name": "Petrochemicals",
+      "category": "Chemical Manufacturing",
+      "description": "Explore Saudi Arabia's petrochemical industry and its production of chemicals and industrial materials.",
+      "image": "images/industries/petrochemicals.jpg"
+    },
+    {
+      "id": 2,
+      "slug": "pharmaceuticals",
+      "name": "Pharmaceuticals",
+      "category": "Healthcare Manufacturing",
+      "description": "Discover pharmaceutical manufacturing, medical products, and the development of local production capabilities.",
+      "image": "images/industries/pharmaceuticals.jpg"
+    },
+    {
+      "id": 3,
+      "slug": "automotive",
+      "name": "Automotive",
+      "category": "Vehicle Manufacturing",
+      "description": "Explore the development of Saudi Arabia's automotive manufacturing sector and electric vehicle technologies.",
+      "image": "images/industries/automotive.jpg"
+    },
+    {
+      "id": 4,
+      "slug": "food-manufacturing",
+      "name": "Food Manufacturing",
+      "category": "Food and Beverages",
+      "description": "Learn about food processing, dairy production, packaging, and industrial food technologies.",
+      "image": "images/industries/food.jpg"
+    },
+    {
+      "id": 5,
+      "slug": "mining-metals",
+      "name": "Mining and Metals",
+      "category": "Materials and Metals",
+      "description": "Discover mineral processing, metal production, and industrial materials manufacturing.",
+      "image": "images/industries/metals.jpg"
+    },
+    {
+      "id": 6,
+      "slug": "energy-technologies",
+      "name": "Energy Technologies",
+      "category": "Advanced Manufacturing",
+      "description": "Explore manufacturing technologies associated with energy systems and renewable energy equipment.",
+      "image": "images/industries/energy.jpg"
+    }
+  ]
+}
