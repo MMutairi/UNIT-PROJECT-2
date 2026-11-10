@@ -1358,3 +1358,216 @@ a {
     }
 
 }
+/* =============================
+    INDUSTRIAL TECHNOLOGY
+============================= */
+
+/* Industry tags */
+
+.si-tech-card-industries {
+    padding-top: 15px;
+    border-top: 1px solid var(--si-border);
+}
+
+.si-tech-meta-label {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.si-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.si-tech-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 7px 12px;
+
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+
+    background: var(--si-surface-alt);
+    color: var(--si-text);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.5;
+
+    transition: border-color 0.2s ease;
+}
+
+.si-tech-tag:hover {
+    color: var(--si-green-hover);
+    border-color: var(--si-green);
+}
+
+.si-tech-tag:focus-visible {
+    outline: 3px solid var(--si-green-hover);
+    outline-offset: 3px;
+}
+
+/* Saudi context */
+
+.si-tech-saudi-context {
+    max-width: 950px;
+    margin: 0 auto;
+
+    padding: 45px;
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+}
+
+.si-tech-saudi-context .si-section-description {
+    margin-bottom: 0;
+}
+
+/* Detail note */
+
+.si-tech-detail-note {
+    margin-top: 18px;
+    color: var(--si-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+/* How it works */
+
+.si-tech-steps {
+    display: grid;
+    gap: 18px;
+    padding: 0;
+    list-style: none;
+}
+
+.si-tech-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+
+    padding: 24px;
+    border: 1px solid var(--si-border);
+    border-radius: 14px;
+    background: var(--si-surface);
+}
+
+.si-tech-step__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid var(--si-border);
+    border-radius: 50%;
+
+    background: var(--si-surface-alt);
+    color: var(--si-green-hover);
+
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.si-tech-step p {
+    margin: 7px 0 0;
+    color: var(--si-text);
+    line-height: 1.8;
+}
+
+/* Application cards */
+
+.si-tech-info-card {
+    height: 100%;
+    padding: 25px;
+
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 14px;
+}
+
+.si-tech-info-card__icon {
+    display: block;
+    color: var(--si-green-hover);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.si-tech-info-card h3 {
+    color: var(--si-text);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Benefits and challenges */
+
+.si-tech-panel {
+    height: 100%;
+    padding: 30px;
+
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 16px;
+}
+
+.si-tech-list {
+    padding-left: 22px;
+    margin: 20px 0 0;
+    color: var(--si-text);
+}
+
+.si-tech-list li {
+    padding-left: 4px;
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+
+.si-tech-list li::marker {
+    color: var(--si-green-hover);
+}
+
+/* Mobile */
+
+@media (max-width: 767px) {
+
+    .si-tech-saudi-context {
+        padding: 25px;
+    }
+
+    .si-tech-step {
+        padding: 18px;
+        gap: 12px;
+    }
+
+    .si-tech-step__number {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .si-tech-info-card,
+    .si-tech-panel {
+        padding: 20px;
+    }
+
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .si-tech-tag {
+        transition: none;
+    }
+
+}
