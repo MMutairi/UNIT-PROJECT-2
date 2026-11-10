@@ -762,3 +762,134 @@ a {
         transform: none;
     }
 }
+/* =============================
+   COMPANIES DIRECTORY
+============================= */
+
+.si-company-location {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: var(--si-muted);
+}
+
+.si-company-location__icon {
+    color: var(--si-green-hover);
+    font-size: 1.7rem;
+    line-height: 1;
+}
+
+.si-company-location strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.si-company-location small {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+/* =============================
+   COMPANY PROFILE PAGE
+============================= */
+
+/* Image caption */
+
+.si-image-caption {
+    color: var(--si-muted);
+    font-size: 0.8rem;
+}
+
+/* Company facts */
+
+.si-company-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.si-company-fact {
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.si-company-fact__label {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.si-company-fact strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+}
+
+.si-company-fact small {
+    display: block;
+    color: var(--si-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+/* Related industry */
+
+.si-company-related {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+    padding: 45px;
+}
+
+.si-company-related > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.si-company-related .si-section-heading {
+    margin-bottom: 15px;
+}
+
+.si-company-related .si-section-description {
+    margin-bottom: 0;
+}
+
+.si-company-related .btn {
+    flex-shrink: 0;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+
+    .si-company-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .si-company-related {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px;
+        gap: 25px;
+    }
+
+    .si-company-related .btn {
+        width: 100%;
+    }
+}

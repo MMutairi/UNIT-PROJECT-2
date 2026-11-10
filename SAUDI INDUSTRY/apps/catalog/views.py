@@ -68,18 +68,107 @@ def industry_detail(request, slug):
         {"industry": industry}
     )
 
+def load_companies():
+    companies_data = load_json("companies.json")
+    industries_data = load_json("industries.json")
+
+    industry_lookup = {
+        industry["slug"]: industry
+        for industry in industries_data["industries"]
+    }
+
+    return [
+        {
+            **company,
+            "industry": industry_lookup[company["industry_slug"]]
+        }
+        for company in companies_data["companies"]
+    ]
+
 
 def companies(request):
-    return render(request, "catalog/companies.html")
+    all_companies = load_companies()
+
+    search_query = request.GET.get("q", "").strip()
+    selected_industry = request.GET.get("industry", "").strip()
+    selected_location = request.GET.get("location", "").strip()
+
+    industry_options = sorted(
+        {
+            company["industry_slug"]: company["industry"]
+            for company in all_companies
+        }.values(),
+        key=lambda industry: industry["name"]
+    )
+
+    locations = sorted({
+        company["location"]
+        for company in all_companies
+    })
+
+    filtered_companies = all_companies
+
+    if search_query:
+        query = search_query.casefold()
+
+        filtered_companies = [
+            company
+            for company in filtered_companies
+            if query in " ".join([
+                company["name"],
+                company["description"],
+                company["industry"]["name"],
+                company["location"],
+            ]).casefold()
+        ]
+
+    if selected_industry:
+        filtered_companies = [
+            company
+            for company in filtered_companies
+            if company["industry_slug"] == selected_industry
+        ]
+
+    if selected_location:
+        filtered_companies = [
+            company
+            for company in filtered_companies
+            if company["location"] == selected_location
+        ]
+
+    context = {
+        "companies": filtered_companies,
+        "industry_options": industry_options,
+        "locations": locations,
+        "search_query": search_query,
+        "selected_industry": selected_industry,
+        "selected_location": selected_location,
+        "total_companies": len(all_companies),
+    }
+
+    return render(request, "catalog/companies.html", context)
 
 
 def company_detail(request, slug):
+    all_companies = load_companies()
+
+    company = next(
+        (
+            item
+            for item in all_companies
+            if item["slug"] == slug
+        ),
+        None
+    )
+
+    if company is None:
+        raise Http404("Company not found")
+
     return render(
         request,
         "catalog/company_detail.html",
-        {"slug": slug}
+        {"company": company}
     )
-
 
 def industrial_cities(request):
     return render(request, "catalog/industrial_cities.html")
