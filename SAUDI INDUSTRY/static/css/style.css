@@ -1088,3 +1088,273 @@ a {
     }
 
 }
+/* =============================
+      MADE IN SAUDI
+============================= */
+
+/* Educational directory note */
+
+.si-products-note {
+    color: var(--si-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* Product information */
+
+.si-product-meta {
+    display: grid;
+    gap: 14px;
+    padding: 15px 0;
+    border-top: 1px solid var(--si-border);
+    border-bottom: 1px solid var(--si-border);
+}
+
+.si-product-meta__item {
+    min-width: 0;
+}
+
+.si-product-meta__label {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.si-product-meta__item strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* Related industry */
+
+.si-product-industry {
+    margin-bottom: 12px;
+}
+
+.si-product-industry__link {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 7px 12px;
+
+    background: var(--si-surface-alt);
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+
+    color: var(--si-text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.si-product-industry__link:hover {
+    color: var(--si-green-hover);
+    border-color: var(--si-green);
+}
+
+.si-product-industry__link:focus-visible {
+    outline: 3px solid var(--si-green-hover);
+    outline-offset: 3px;
+}
+
+/* Mobile */
+
+@media (max-width: 576px) {
+
+    .si-product-meta {
+        gap: 12px;
+    }
+
+    .si-product-industry__link {
+        font-size: 0.75rem;
+    }
+
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .si-product-industry__link {
+        transition: none;
+    }
+
+}
+/* =============================
+       PRODUCT DETAILS
+============================= */
+
+/* Product facts */
+
+.si-product-detail-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.si-product-detail-fact {
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.si-product-detail-fact__label {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.si-product-detail-fact strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+}
+
+
+/* Raw material cards */
+
+.si-product-material-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 20px;
+
+    background: var(--si-bg);
+    border: 1px solid var(--si-border);
+    border-radius: 12px;
+
+    color: var(--si-text);
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.si-product-material-card__icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+
+    background: var(--si-surface-alt);
+    color: var(--si-green-hover);
+}
+
+
+/* Manufacturing process */
+
+.si-product-process {
+    display: grid;
+    gap: 18px;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.si-product-process__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+
+    padding: 25px;
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 14px;
+}
+
+.si-product-process__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+
+    background: var(--si-surface-alt);
+    border: 1px solid var(--si-border);
+    color: var(--si-green-hover);
+
+    border-radius: 50%;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.si-product-process__item p {
+    color: var(--si-text);
+    line-height: 1.8;
+    margin: 6px 0 0;
+}
+
+
+/* Application cards */
+
+.si-product-application-card {
+    height: 100%;
+    padding: 25px;
+
+    background: var(--si-bg);
+    border: 1px solid var(--si-border);
+    border-radius: 14px;
+}
+
+.si-product-application-card__icon {
+    display: inline-flex;
+    color: var(--si-green-hover);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.si-product-application-card h3 {
+    color: var(--si-text);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+}
+
+
+/* Responsive */
+
+@media (max-width: 767px) {
+
+    .si-product-detail-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .si-product-process__item {
+        padding: 18px;
+        gap: 14px;
+    }
+
+    .si-product-process__number {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .si-product-material-card,
+    .si-product-application-card {
+        padding: 18px;
+    }
+
+}

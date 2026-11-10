@@ -284,5 +284,117 @@ def industrial_city_detail(request, slug):
     )
 
 
+def load_products():
+    products_data = load_json("products.json")
+    industries_data = load_json("industries.json")
+    companies_data = load_json("companies.json")
+
+    industry_lookup = {
+        industry["slug"]: industry
+        for industry in industries_data["industries"]
+    }
+
+    company_lookup = {
+        company["slug"]: company
+        for company in companies_data["companies"]
+    }
+
+    return [
+        {
+            **product,
+            "industry": industry_lookup[product["industry_slug"]],
+            "company": company_lookup[product["company_slug"]]
+        }
+        for product in products_data["products"]
+    ]
+
+
 def made_in_saudi(request):
-    return render(request, "catalog/made_in_saudi.html")
+    all_products = load_products()
+
+    search_query = request.GET.get("q", "").strip()
+    selected_industry = request.GET.get("industry", "").strip()
+    selected_category = request.GET.get("category", "").strip()
+
+    industry_options = sorted(
+        {
+            product["industry_slug"]: product["industry"]
+            for product in all_products
+        }.values(),
+        key=lambda industry: industry["name"]
+    )
+
+    categories = sorted({
+        product["category"]
+        for product in all_products
+    })
+
+    filtered_products = all_products
+
+    if search_query:
+        query = search_query.casefold()
+
+        filtered_products = [
+            product
+            for product in filtered_products
+            if query in " ".join([
+                product["name"],
+                product["description"],
+                product["category"],
+                product["industry"]["name"],
+                product["company"]["name"],
+                product["production_location"],
+            ]).casefold()
+        ]
+
+    if selected_industry:
+        filtered_products = [
+            product
+            for product in filtered_products
+            if product["industry_slug"] == selected_industry
+        ]
+
+    if selected_category:
+        filtered_products = [
+            product
+            for product in filtered_products
+            if product["category"] == selected_category
+        ]
+
+    context = {
+        "products": filtered_products,
+        "industry_options": industry_options,
+        "categories": categories,
+        "search_query": search_query,
+        "selected_industry": selected_industry,
+        "selected_category": selected_category,
+        "total_products": len(all_products),
+    }
+
+    return render(
+        request,
+        "catalog/made_in_saudi.html",
+        context
+    )
+
+
+def product_detail(request, slug):
+    all_products = load_products()
+
+    product = next(
+        (
+            item
+            for item in all_products
+            if item["slug"] == slug
+        ),
+        None
+    )
+
+    if product is None:
+        raise Http404("Product not found")
+
+    return render(
+        request,
+        "catalog/product_detail.html",
+        {"product": product}
+    )

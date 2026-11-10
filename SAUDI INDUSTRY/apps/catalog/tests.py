@@ -422,3 +422,258 @@ class IndustrialCityTests(SimpleTestCase):
             response,
             "Specific industry categories have not"
         )
+
+class ProductTests(SimpleTestCase):
+
+    def test_products_page(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi")
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(
+            response,
+            "catalog/made_in_saudi.html"
+        )
+
+        self.assertEqual(
+            len(response.context["products"]),
+            6
+        )
+
+    def test_product_search(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {"q": "mIlK"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        products = response.context["products"]
+
+        self.assertEqual(len(products), 1)
+        self.assertEqual(
+            products[0]["slug"],
+            "fresh-milk"
+        )
+
+    def test_search_by_manufacturer(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {"q": "SABIC"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        products = response.context["products"]
+
+        self.assertEqual(len(products), 1)
+        self.assertEqual(
+            products[0]["slug"],
+            "polyethylene-resin"
+        )
+
+    def test_industry_filter(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {"industry": "mining-metals"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        products = response.context["products"]
+
+        self.assertEqual(len(products), 2)
+
+        product_slugs = {
+            product["slug"]
+            for product in products
+        }
+
+        self.assertEqual(
+            product_slugs,
+            {
+                "rolled-aluminium",
+                "phosphate-fertilizer"
+            }
+        )
+
+    def test_category_filter(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {"category": "Medicines"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        products = response.context["products"]
+
+        self.assertEqual(len(products), 1)
+        self.assertEqual(
+            products[0]["slug"],
+            "pharmaceutical-tablets"
+        )
+
+    def test_combined_filters(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {
+                "q": "Almarai",
+                "industry": "food-manufacturing",
+                "category": "Dairy Products"
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        products = response.context["products"]
+
+        self.assertEqual(len(products), 1)
+        self.assertEqual(
+            products[0]["slug"],
+            "fresh-milk"
+        )
+
+    def test_search_by_production_location(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {"q": "Al-Kharj"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        products = response.context["products"]
+
+        self.assertEqual(len(products), 1)
+        self.assertEqual(
+            products[0]["slug"],
+            "fresh-milk"
+        )
+
+    def test_product_detail(self):
+        response = self.client.get(
+            reverse(
+                "catalog:product_detail",
+                args=["fresh-milk"]
+            )
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertTemplateUsed(
+            response,
+            "catalog/product_detail.html"
+        )
+
+        self.assertEqual(
+            response.context["product"]["slug"],
+            "fresh-milk"
+        )
+
+        self.assertContains(response, "Almarai")
+        self.assertContains(response, "Raw Materials")
+        self.assertContains(response, "Manufacturing Process")
+        self.assertContains(response, "applications")
+
+    def test_all_product_detail_pages(self):
+        from .content_loader import load_json
+
+        products = load_json("products.json")["products"]
+
+        for product in products:
+            with self.subTest(product=product["slug"]):
+                response = self.client.get(
+                    reverse(
+                        "catalog:product_detail",
+                        args=[product["slug"]]
+                    )
+                )
+
+                self.assertEqual(
+                    response.status_code,
+                    200
+                )
+
+                self.assertContains(
+                    response,
+                    product["name"]
+                )
+
+    def test_invalid_product(self):
+        response = self.client.get(
+            reverse(
+                "catalog:product_detail",
+                args=["unknown-product"]
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            404
+        )
+
+    def test_empty_search_results(self):
+        response = self.client.get(
+            reverse("catalog:made_in_saudi"),
+            {"q": "nonexistent-product-xyz"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(
+            len(response.context["products"]),
+            0
+        )
+
+        self.assertContains(
+            response,
+            "No Products Found"
+        )
+
+    def test_product_relationships(self):
+        from .content_loader import load_json
+
+        products = load_json("products.json")["products"]
+        industries = load_json("industries.json")["industries"]
+        companies = load_json("companies.json")["companies"]
+
+        industry_slugs = {
+            industry["slug"]
+            for industry in industries
+        }
+
+        company_slugs = {
+            company["slug"]
+            for company in companies
+        }
+
+        for product in products:
+            self.assertIn(
+                product["industry_slug"],
+                industry_slugs
+            )
+
+            self.assertIn(
+                product["company_slug"],
+                company_slugs
+            )
+
+    def test_manufacturing_information(self):
+        from .content_loader import load_json
+
+        products = load_json("products.json")["products"]
+
+        for product in products:
+            with self.subTest(product=product["slug"]):
+                self.assertTrue(
+                    product["raw_materials"]
+                )
+
+                self.assertTrue(
+                    product["production_steps"]
+                )
+
+                self.assertTrue(
+                    product["applications"]
+                )
