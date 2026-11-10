@@ -1571,3 +1571,295 @@ a {
     }
 
 }
+/* =============================
+    VISION 2030
+============================= */
+
+/* Hero image */
+
+.si-vision-hero__visual {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid var(--si-border);
+    background: var(--si-surface);
+}
+
+.si-vision-hero__visual img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+}
+
+.si-vision-hero__visual figcaption {
+    padding: 10px 15px;
+    color: var(--si-muted);
+    font-size: 0.75rem;
+}
+
+/* Shared card number */
+
+.si-vision-card-number {
+    display: block;
+    margin-bottom: 22px;
+    color: var(--si-green-hover);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* Three Vision pillars */
+
+.si-vision-pillar-card {
+    height: 100%;
+    padding: 30px;
+    border: 1px solid var(--si-border);
+    border-radius: 16px;
+    background: var(--si-surface);
+}
+
+.si-vision-pillar-card h3 {
+    margin-bottom: 15px;
+    color: var(--si-text);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.si-vision-pillar-card p {
+    margin: 0;
+    color: var(--si-muted);
+    line-height: 1.8;
+}
+
+/* Official targets */
+
+.si-vision-target-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    padding: 30px;
+
+    border: 1px solid var(--si-border);
+    border-radius: 16px;
+    background: var(--si-surface);
+}
+
+.si-vision-target-card__status {
+    align-self: flex-start;
+    padding: 6px 12px;
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+
+    background: var(--si-surface-alt);
+    color: var(--si-text);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.si-vision-target-card__value {
+    margin: 8px 0;
+    color: var(--si-green-hover);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.si-vision-target-card h3 {
+    color: var(--si-text);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.si-vision-target-card p {
+    color: var(--si-muted);
+    line-height: 1.7;
+    margin-bottom: 5px;
+}
+
+.si-vision-target-card__period {
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.si-vision-target-card > .si-text-link {
+    margin-top: auto;
+}
+
+.si-vision-note {
+    color: var(--si-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+/* Industrial priorities */
+
+.si-vision-focus-card {
+    height: 100%;
+    padding: 30px;
+    border: 1px solid var(--si-border);
+    border-radius: 16px;
+    background: var(--si-surface);
+}
+
+.si-vision-focus-card h3 {
+    margin-bottom: 15px;
+    color: var(--si-text);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.si-vision-focus-card p {
+    color: var(--si-muted);
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Initiatives */
+
+.si-vision-initiative-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+    padding: 28px;
+
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 16px;
+
+    transition: border-color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.si-vision-initiative-card:hover {
+    border-color: var(--si-green);
+    transform: translateY(-3px);
+}
+
+.si-vision-initiative-card__type {
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 7px 12px;
+
+    background: var(--si-surface-alt);
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+
+    color: var(--si-green-hover);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.si-vision-initiative-card h3 {
+    color: var(--si-text);
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.si-vision-initiative-card p {
+    color: var(--si-muted);
+    line-height: 1.8;
+    margin: 0 0 15px;
+    flex-grow: 1;
+}
+
+/* Links to existing pages */
+
+.si-vision-explore {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+
+    padding: 40px;
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+    background: var(--si-surface);
+}
+
+.si-vision-explore > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.si-vision-explore__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.si-vision-explore__links .btn {
+    white-space: normal;
+}
+
+/* Disclaimer */
+
+.si-vision-disclaimer {
+    padding: 25px;
+    background: var(--si-surface-alt);
+    border: 1px solid var(--si-border);
+    border-radius: 14px;
+}
+
+.si-vision-disclaimer h2 {
+    margin-bottom: 12px;
+    color: var(--si-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.si-vision-disclaimer p {
+    color: var(--si-muted);
+    line-height: 1.7;
+}
+
+.si-vision-disclaimer small {
+    color: var(--si-muted);
+}
+
+/* Responsive */
+
+@media (max-width: 991px) {
+    .si-vision-explore {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .si-vision-pillar-card,
+    .si-vision-target-card,
+    .si-vision-focus-card,
+    .si-vision-initiative-card {
+        padding: 22px;
+    }
+
+    .si-vision-explore {
+        padding: 22px;
+    }
+
+    .si-vision-explore__links {
+        grid-template-columns: 1fr;
+    }
+
+    .si-vision-target-card__value {
+        font-size: 2.6rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .si-vision-initiative-card {
+        transition: none;
+    }
+
+    .si-vision-initiative-card:hover {
+        transform: none;
+    }
+}

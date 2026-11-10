@@ -147,7 +147,12 @@ def technology_detail(request, slug):
 
 
 def vision2030(request):
-    return render(request, "core/vision2030.html")
+    vision_data = load_json("vision2030.json")
+    return render(
+        request,
+        "core/vision2030.html",
+        {"vision": vision_data}
+    )
 
 
 def gallery(request):

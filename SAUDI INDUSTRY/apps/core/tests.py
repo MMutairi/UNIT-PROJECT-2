@@ -282,3 +282,239 @@ class TechnologyTests(SimpleTestCase):
             response,
             "Future Factories in Saudi Arabia"
         )
+
+class Vision2030Tests(SimpleTestCase):
+
+    def test_vision2030_page(self):
+        response = self.client.get(
+            reverse("core:vision2030")
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_vision2030_template(self):
+        response = self.client.get(
+            reverse("core:vision2030")
+        )
+
+        self.assertTemplateUsed(
+            response,
+            "core/vision2030.html"
+        )
+
+        self.assertIn("vision", response.context)
+
+    def test_hero_and_overview(self):
+        response = self.client.get(
+            reverse("core:vision2030")
+        )
+
+        vision = response.context["vision"]
+
+        self.assertTrue(vision["hero"]["title"])
+        self.assertTrue(vision["overview"]["description"])
+
+        self.assertContains(
+            response,
+            "Vision 2030"
+        )
+
+        self.assertContains(
+            response,
+            "Building a More Diverse Industrial Economy"
+        )
+
+    def test_three_vision_pillars(self):
+        vision = load_json("vision2030.json")
+
+        pillars = vision["pillars"]
+
+        self.assertEqual(len(pillars), 3)
+
+        pillar_names = {
+            pillar["name"]
+            for pillar in pillars
+        }
+
+        self.assertEqual(
+            pillar_names,
+            {
+                "A Vibrant Society",
+                "A Thriving Economy",
+                "An Ambitious Nation"
+            }
+        )
+
+    def test_three_targets(self):
+        vision = load_json("vision2030.json")
+
+        targets = vision["targets"]
+
+        self.assertEqual(len(targets), 3)
+
+        values = {
+            target["value"]
+            for target in targets
+        }
+
+        self.assertEqual(
+            values,
+            {"50%", "65%", "4,000"}
+        )
+
+    def test_target_statuses_are_distinct(self):
+        vision = load_json("vision2030.json")
+
+        targets = {
+            target["value"]: target
+            for target in vision["targets"]
+        }
+
+        self.assertEqual(
+            targets["50%"]["status"],
+            "Vision 2030 target"
+        )
+
+        self.assertEqual(
+            targets["65%"]["status"],
+            "Vision 2030 target"
+        )
+
+        self.assertEqual(
+            targets["4,000"]["status"],
+            "Program aim"
+        )
+
+        self.assertEqual(
+            targets["50%"]["timeframe"],
+            "2030"
+        )
+
+        self.assertNotEqual(
+            targets["4,000"]["timeframe"],
+            "2030"
+        )
+
+    def test_four_focus_areas(self):
+        vision = load_json("vision2030.json")
+
+        areas = vision["focus_areas"]
+
+        self.assertEqual(len(areas), 4)
+
+        for area in areas:
+            self.assertTrue(area["title"])
+            self.assertTrue(area["description"])
+
+    def test_six_initiatives(self):
+        vision = load_json("vision2030.json")
+
+        initiatives = vision["initiatives"]
+
+        self.assertEqual(len(initiatives), 6)
+
+        names = {
+            item["name"]
+            for item in initiatives
+        }
+
+        self.assertIn(
+            "National Industrial Strategy",
+            names
+        )
+
+        self.assertIn(
+            "Future Factories Program",
+            names
+        )
+
+        self.assertIn(
+            "Made in Saudi Program",
+            names
+        )
+
+    def test_unique_content_ids(self):
+        vision = load_json("vision2030.json")
+
+        for key in (
+            "pillars",
+            "targets",
+            "focus_areas",
+            "initiatives"
+        ):
+            with self.subTest(section=key):
+                ids = [
+                    item["id"]
+                    for item in vision[key]
+                ]
+
+                self.assertEqual(
+                    len(ids),
+                    len(set(ids))
+                )
+
+    def test_official_source_urls(self):
+        vision = load_json("vision2030.json")
+
+        urls = [
+            vision["overview"]["source_url"]
+        ]
+
+        urls.extend(
+            item["source_url"]
+            for item in vision["targets"]
+        )
+
+        urls.extend(
+            item["source_url"]
+            for item in vision["initiatives"]
+        )
+
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertTrue(
+                    url.startswith("https://")
+                )
+
+    def test_vision_image_exists(self):
+        vision = load_json("vision2030.json")
+
+        image_path = (
+            settings.BASE_DIR
+            / "static"
+            / vision["hero"]["image"]
+        )
+
+        self.assertTrue(
+            image_path.is_file()
+        )
+
+    def test_vision_page_navigation(self):
+        response = self.client.get(
+            reverse("core:vision2030")
+        )
+
+        self.assertContains(
+            response,
+            reverse("catalog:industries")
+        )
+
+        self.assertContains(
+            response,
+            reverse("catalog:industrial_cities")
+        )
+
+        self.assertContains(
+            response,
+            reverse("catalog:made_in_saudi")
+        )
+
+        self.assertContains(
+            response,
+            reverse("core:technology")
+        )
+
+        self.assertContains(
+            response,
+            "Sources and Information"
+        )
