@@ -222,3 +222,203 @@ class CompanyTests(SimpleTestCase):
                 company["industry_slug"],
                 industry_slugs
             )
+
+class IndustrialCityTests(SimpleTestCase):
+
+    def test_industrial_cities_page(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities")
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "catalog/industrial_cities.html"
+        )
+        self.assertEqual(
+            len(response.context["industrial_cities"]),
+            6
+        )
+
+    def test_city_search(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities"),
+            {"q": "jUbAiL"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        cities = response.context["industrial_cities"]
+
+        self.assertEqual(len(cities), 2)
+        city_slugs = {
+            city["slug"]
+            for city in cities
+        }
+        self.assertEqual(
+            city_slugs,
+            {
+                "jubail-industrial-city",
+                "ras-al-khair"
+            }
+        )
+
+    def test_search_related_industry(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities"),
+            {"q": "automotive"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        cities = response.context["industrial_cities"]
+
+        self.assertEqual(len(cities), 1)
+        self.assertEqual(
+            cities[0]["slug"],
+            "kaec-industrial-valley"
+        )
+
+    def test_region_filter(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities"),
+            {"region": "Eastern Province"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        cities = response.context["industrial_cities"]
+
+        self.assertEqual(len(cities), 2)
+
+        for city in cities:
+            self.assertEqual(
+                city["region"],
+                "Eastern Province"
+            )
+
+    def test_type_filter(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities"),
+            {"type": "Industrial Valley"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        cities = response.context["industrial_cities"]
+
+        self.assertEqual(len(cities), 1)
+        self.assertEqual(
+            cities[0]["slug"],
+            "kaec-industrial-valley"
+        )
+
+    def test_combined_filters(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities"),
+            {
+                "q": "automotive",
+                "region": "Makkah Region",
+                "type": "Industrial Valley"
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        cities = response.context["industrial_cities"]
+
+        self.assertEqual(len(cities), 1)
+        self.assertEqual(
+            cities[0]["slug"],
+            "kaec-industrial-valley"
+        )
+
+    def test_industrial_city_detail(self):
+        response = self.client.get(
+            reverse(
+                "catalog:industrial_city_detail",
+                args=["kaec-industrial-valley"]
+            )
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "catalog/industrial_city_detail.html"
+        )
+        self.assertEqual(
+            response.context["city"]["slug"],
+            "kaec-industrial-valley"
+        )
+        self.assertContains(
+            response,
+            "King Abdullah Economic City"
+        )
+        self.assertContains(
+            response,
+            "Automotive"
+        )
+
+    def test_invalid_industrial_city(self):
+        response = self.client.get(
+            reverse(
+                "catalog:industrial_city_detail",
+                args=["unknown-industrial-city"]
+            )
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_empty_search_results(self):
+        response = self.client.get(
+            reverse("catalog:industrial_cities"),
+            {"q": "nonexistent-city-xyz"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.context["industrial_cities"]),
+            0
+        )
+        self.assertContains(
+            response,
+            "No Industrial Locations Found"
+        )
+
+    def test_city_industry_relationships(self):
+        from .content_loader import load_json
+
+        cities = load_json(
+            "industrial_cities.json"
+        )["industrial_cities"]
+
+        industries = load_json(
+            "industries.json"
+        )["industries"]
+
+        industry_slugs = {
+            industry["slug"]
+            for industry in industries
+        }
+
+        for city in cities:
+            for slug in city["industry_slugs"]:
+                self.assertIn(slug, industry_slugs)
+
+    def test_city_without_related_industries(self):
+        response = self.client.get(
+            reverse(
+                "catalog:industrial_city_detail",
+                args=["riyadh-second-industrial-city"]
+            )
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context["city"]["industries"],
+            []
+        )
+        self.assertContains(
+            response,
+            "Specific industry categories have not"
+        )

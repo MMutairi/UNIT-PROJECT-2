@@ -893,3 +893,198 @@ a {
         width: 100%;
     }
 }
+/* =============================
+   INDUSTRIAL CITIES DIRECTORY
+============================= */
+
+/* Location details */
+
+.si-city-location {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--si-muted);
+    min-width: 0;
+}
+
+.si-city-location__icon {
+    color: var(--si-green-hover);
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.si-city-location strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.si-city-location small {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin-top: 4px;
+    overflow-wrap: anywhere;
+}
+
+/* Responsible organization */
+
+.si-city-authority {
+    padding: 14px 0;
+    border-top: 1px solid var(--si-border);
+    border-bottom: 1px solid var(--si-border);
+    min-width: 0;
+}
+
+.si-city-authority span {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--si-muted);
+    margin-bottom: 6px;
+}
+
+.si-city-authority strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* Related industries */
+
+.si-city-industries {
+    margin-top: 4px;
+    min-width: 0;
+}
+
+.si-city-industries__label {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.si-city-industry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.si-city-industry-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 7px 12px;
+
+    background: var(--si-surface-alt);
+    border: 1px solid var(--si-border);
+    border-radius: 20px;
+
+    color: var(--si-text);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.si-city-industry-tag:hover {
+    color: var(--si-green-hover);
+    border-color: var(--si-green);
+}
+
+/* Accessibility */
+
+.si-city-industry-tag:focus-visible,
+.si-sector-card__image:focus-visible,
+.si-text-link:focus-visible {
+    outline: 3px solid var(--si-green-hover);
+    outline-offset: 3px;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 576px) {
+
+    .si-page-banner__title {
+        overflow-wrap: anywhere;
+    }
+
+    .si-sector-card__body {
+        padding: 20px;
+    }
+
+    .si-city-location {
+        gap: 10px;
+    }
+
+    .si-city-industry-tag {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .si-city-industry-tag {
+        transition: none;
+    }
+}
+/* =============================
+   INDUSTRIAL CITY DETAIL PAGE
+============================= */
+
+/* Location information grid */
+
+.si-city-profile-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.si-city-profile-fact {
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.si-city-profile-fact__label {
+    display: block;
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.si-city-profile-fact strong {
+    display: block;
+    color: var(--si-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .si-city-profile-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .si-city-profile-fact {
+        padding: 18px;
+    }
+
+}

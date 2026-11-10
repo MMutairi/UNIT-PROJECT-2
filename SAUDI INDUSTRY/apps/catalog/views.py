@@ -170,15 +170,117 @@ def company_detail(request, slug):
         {"company": company}
     )
 
+def load_industrial_cities():
+    cities_data = load_json("industrial_cities.json")
+    industries_data = load_json("industries.json")
+
+    industry_lookup = {
+        industry["slug"]: industry
+        for industry in industries_data["industries"]
+    }
+
+    return [
+        {
+            **city,
+            "industries": [
+                industry_lookup[slug]
+                for slug in city["industry_slugs"]
+                if slug in industry_lookup
+            ]
+        }
+        for city in cities_data["industrial_cities"]
+    ]
+
+
 def industrial_cities(request):
-    return render(request, "catalog/industrial_cities.html")
+    all_cities = load_industrial_cities()
+
+    search_query = request.GET.get("q", "").strip()
+    selected_region = request.GET.get("region", "").strip()
+    selected_type = request.GET.get("type", "").strip()
+
+    regions = sorted({
+        city["region"]
+        for city in all_cities
+    })
+
+    city_types = sorted({
+        city["type"]
+        for city in all_cities
+    })
+
+    filtered_cities = all_cities
+
+    if search_query:
+        query = search_query.casefold()
+
+        filtered_cities = [
+            city
+            for city in filtered_cities
+            if query in " ".join([
+                city["name"],
+                city["description"],
+                city["location"],
+                city["region"],
+                city["type"],
+                " ".join(city["key_features"]),
+                " ".join(
+                    industry["name"]
+                    for industry in city["industries"]
+                ),
+            ]).casefold()
+        ]
+
+    if selected_region:
+        filtered_cities = [
+            city
+            for city in filtered_cities
+            if city["region"] == selected_region
+        ]
+
+    if selected_type:
+        filtered_cities = [
+            city
+            for city in filtered_cities
+            if city["type"] == selected_type
+        ]
+
+    context = {
+        "industrial_cities": filtered_cities,
+        "regions": regions,
+        "city_types": city_types,
+        "search_query": search_query,
+        "selected_region": selected_region,
+        "selected_type": selected_type,
+        "total_cities": len(all_cities),
+    }
+
+    return render(
+        request,
+        "catalog/industrial_cities.html",
+        context
+    )
 
 
 def industrial_city_detail(request, slug):
+    all_cities = load_industrial_cities()
+
+    city = next(
+        (
+            item
+            for item in all_cities
+            if item["slug"] == slug
+        ),
+        None
+    )
+
+    if city is None:
+        raise Http404("Industrial city not found")
+
     return render(
         request,
         "catalog/industrial_city_detail.html",
-        {"slug": slug}
+        {"city": city}
     )
 
 
