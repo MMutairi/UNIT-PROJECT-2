@@ -574,7 +574,14 @@ class ProductTests(SimpleTestCase):
         self.assertContains(response, "Almarai")
         self.assertContains(response, "Raw Materials")
         self.assertContains(response, "Manufacturing Process")
-        self.assertContains(response, "applications")
+        self.assertContains(
+            response,
+            "Where Is This Product Used?"
+        )
+        self.assertContains(
+            response,
+            "Direct consumption"
+        )
 
     def test_all_product_detail_pages(self):
         from .content_loader import load_json
