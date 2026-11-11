@@ -5,25 +5,51 @@
 
 {% block content %}
 
-<section class="si-page-banner">
-    <div class="container text-center">
+<!-- MADE IN SAUDI VIDEO HERO -->
+<section class="si-home-hero">
 
-        <span class="si-eyebrow">
-            SAUDI MANUFACTURING
-        </span>
-
-        <h1 class="si-page-banner__title">
-            Made in Saudi
-        </h1>
-
-        <p class="si-page-banner__description mx-auto">
-            Discover products manufactured in Saudi Arabia,
-            explore their industrial applications,
-            and learn about the manufacturing processes
-            that transform raw materials into finished products.
-        </p>
-
+    <div class="si-home-hero__media">
+        <video
+            id="madeInSaudiBackgroundVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source
+                src="https://res.cloudinary.com/ew4jvlxr/video/upload/v1794412568/producit.mp4"
+                type="video/mp4"
+            >
+        </video>
     </div>
+
+    <div class="si-home-hero__shade"></div>
+
+    <div class="container si-home-hero__content">
+        <div class="row">
+            <div class="col-lg-9 col-xl-8">
+
+                <span class="si-eyebrow">
+                    SAUDI MANUFACTURING
+                </span>
+
+                <h1 class="si-home-hero__title">
+                    Made in <span>Saudi</span>
+                </h1>
+
+                <p class="si-home-hero__description">
+                    Discover products manufactured in Saudi Arabia,
+                    explore their industrial applications,
+                    and learn about the manufacturing processes
+                    that transform raw materials into finished products.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
 </section>
 
 
@@ -202,7 +228,11 @@
                     >
 
                         <img
+                            {% if product.image|slice:":4" == "http" %}
+                            src="{{ product.image }}"
+                            {% else %}
                             src="{% static product.image %}"
+                            {% endif %}
                             alt="Illustrative image of the {{ product.industry.name }} industry"
                             loading="lazy"
                         >
@@ -361,4 +391,36 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById(
+        "madeInSaudiBackgroundVideo"
+    );
+
+    if (!video) return;
+
+    const motion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function updatePlayback() {
+        if (motion.matches) {
+            video.pause();
+        } else {
+            video.play().catch((error) => {
+                console.error(
+                    "Made in Saudi background video failed to play.",
+                    error
+                );
+            });
+        }
+    }
+
+    updatePlayback();
+    motion.addEventListener("change", updatePlayback);
+});
+</script>
 {% endblock %}

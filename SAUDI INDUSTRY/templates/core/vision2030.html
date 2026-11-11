@@ -6,22 +6,40 @@
 
 {% block content %}
 
-<section class="si-page-banner si-vision-hero">
-    <div class="container">
+<section class="si-home-hero si-vision-hero">
 
-        <div class="row g-5 align-items-center">
+    <div class="si-home-hero__media">
+        <video
+            id="vision2030BackgroundVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source
+                src="https://res.cloudinary.com/ew4jvlxr/video/upload/v1794413124/Vision_2030.mp4"
+                type="video/mp4"
+            >
+        </video>
+    </div>
 
-            <div class="col-lg-7">
+    <div class="si-home-hero__shade"></div>
+
+    <div class="container si-home-hero__content">
+        <div class="row">
+            <div class="col-lg-9 col-xl-8">
 
                 <span class="si-eyebrow">
                     {{ vision.hero.eyebrow }}
                 </span>
 
-                <h1 class="si-page-banner__title">
+                <h1 class="si-home-hero__title">
                     {{ vision.hero.title }}
                 </h1>
 
-                <p class="si-page-banner__description">
+                <p class="si-home-hero__description">
                     {{ vision.hero.description }}
                 </p>
 
@@ -33,36 +51,16 @@
                     </a>
 
                     <a href="#vision-initiatives"
-                       class="btn si-outline-btn">
+                       class="btn si-outline-btn text-white">
                         Industrial Initiatives
                     </a>
 
                 </div>
 
             </div>
-
-
-            <div class="col-lg-5">
-
-                <figure class="si-vision-hero__visual">
-
-                    <img
-                        src="{% static vision.hero.image %}"
-                        alt="{{ vision.hero.image_alt }}"
-                        class="img-fluid"
-                    >
-
-                    <figcaption>
-                        Illustrative industrial development image.
-                    </figcaption>
-
-                </figure>
-
-            </div>
-
         </div>
-
     </div>
+
 </section>
 
 
@@ -442,4 +440,36 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById(
+        "vision2030BackgroundVideo"
+    );
+
+    if (!video) return;
+
+    const motion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function updatePlayback() {
+        if (motion.matches) {
+            video.pause();
+        } else {
+            video.play().catch((error) => {
+                console.error(
+                    "Vision 2030 background video failed to play.",
+                    error
+                );
+            });
+        }
+    }
+
+    updatePlayback();
+    motion.addEventListener("change", updatePlayback);
+});
+</script>
 {% endblock %}

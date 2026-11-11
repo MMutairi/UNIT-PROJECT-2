@@ -81,6 +81,27 @@ class CompanyTests(SimpleTestCase):
             6
         )
 
+    def test_external_company_image_url(self):
+        image_url = (
+            "https://res.cloudinary.com/ew4jvlxr/image/upload/"
+            "v1794407447/sabic.jpg"
+        )
+
+        response = self.client.get(
+            reverse("catalog:companies")
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
+
+        response = self.client.get(
+            reverse(
+                "catalog:company_detail",
+                args=["sabic"]
+            )
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
+
     def test_company_search(self):
         response = self.client.get(
             reverse("catalog:companies"),
@@ -239,6 +260,30 @@ class IndustrialCityTests(SimpleTestCase):
             len(response.context["industrial_cities"]),
             6
         )
+
+    def test_external_industrial_city_image_url(self):
+        image_url = (
+            "https://res.cloudinary.com/ew4jvlxr/image/upload/"
+            "v1794414334/%D9%81%D9%86%D8%AF%D9%82_%D8%A7%D9%84"
+            "%D9%85%D9%88%D9%81%D9%86%D8%A8%D9%8A%D9%83_%D8%A8"
+            "%D9%8A%D9%86%D8%A8%D8%B9_%D8%A7%D9%84%D8%B5%D9%86"
+            "%D8%A7%D8%B9%D9%8A%D8%A9.png"
+        )
+
+        response = self.client.get(
+            reverse("catalog:industrial_cities")
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
+
+        response = self.client.get(
+            reverse(
+                "catalog:industrial_city_detail",
+                args=["yanbu-industrial-city"]
+            )
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
 
     def test_city_search(self):
         response = self.client.get(
@@ -441,6 +486,27 @@ class ProductTests(SimpleTestCase):
             len(response.context["products"]),
             6
         )
+
+    def test_external_product_image_url(self):
+        image_url = (
+            "https://res.cloudinary.com/ew4jvlxr/image/upload/"
+            "v1794414893/images_1.jpg"
+        )
+
+        response = self.client.get(
+            reverse("catalog:made_in_saudi")
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
+
+        response = self.client.get(
+            reverse(
+                "catalog:product_detail",
+                args=["polyethylene-resin"]
+            )
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
 
     def test_product_search(self):
         response = self.client.get(

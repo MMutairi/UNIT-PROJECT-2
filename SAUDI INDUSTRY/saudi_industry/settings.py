@@ -10,22 +10,72 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / ".env")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0-$&18ydl-83+2_ru#s2o)fnt%p$5x#o3s29x@)2cbgo04!7xn'
+# Security
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
-ALLOWED_HOSTS = []
+DEBUG = os.getenv(
+    "DJANGO_DEBUG",
+    "False"
+).lower() in ("true", "1", "yes")
+
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        "DJANGO_ALLOWED_HOSTS",
+        "127.0.0.1,localhost"
+    ).split(",")
+    if host.strip()
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "DJANGO_CSRF_TRUSTED_ORIGINS",
+        ""
+    ).split(",")
+    if origin.strip()
+]
+
+
+# HTTPS is enabled after configuring
+# the production domain and TLS certificate.
+
+HTTPS_ENABLED = os.getenv(
+    "DJANGO_HTTPS_ENABLED",
+    "False"
+).lower() in ("true", "1", "yes")
+
+
+SECURE_SSL_REDIRECT = HTTPS_ENABLED and not DEBUG
+
+SESSION_COOKIE_SECURE = HTTPS_ENABLED and not DEBUG
+
+CSRF_COOKIE_SECURE = HTTPS_ENABLED and not DEBUG
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+X_FRAME_OPTIONS = "DENY"
+
+# Enable HSTS only after verifying HTTPS
+# works correctly on the production domain.
+
+SECURE_HSTS_SECONDS = 0
 
 
 # Application definition
@@ -43,6 +93,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -114,14 +165,29 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# Static files
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

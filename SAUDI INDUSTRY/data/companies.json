@@ -16,7 +16,7 @@
         "Specialty materials"
       ],
       "website": "https://www.sabic.com/en",
-      "image": "images/industries/petrochemicals.jpg"
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794407447/sabic.jpg"
     },
     {
       "id": 2,
@@ -70,7 +70,7 @@
         "Poultry"
       ],
       "website": "https://www.almarai.com/",
-      "image": "images/industries/food.jpg"
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414119/images.jpg"
     },
     {
       "id": 5,
@@ -88,7 +88,7 @@
         "Industrial minerals"
       ],
       "website": "https://www.maaden.com/",
-      "image": "images/industries/metals.jpg"
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794407458/images_2.jpg"
     },
     {
       "id": 6,
@@ -106,7 +106,7 @@
         "Control and protection systems"
       ],
       "website": "https://www.alfanar.com/",
-      "image": "images/industries/energy.jpg"
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794407423/alfanarGlobalPresence.png"
     }
   ]
 

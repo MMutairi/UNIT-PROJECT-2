@@ -5,25 +5,51 @@
 
 {% block content %}
 
-<section class="si-page-banner">
-    <div class="container text-center">
+<!-- COMPANIES VIDEO HERO -->
+<section class="si-home-hero">
 
-        <span class="si-eyebrow">
-            EXPLORE SAUDI MANUFACTURING
-        </span>
-
-        <h1 class="si-page-banner__title">
-            Industrial Companies
-        </h1>
-
-        <p class="si-page-banner__description mx-auto">
-            Discover the companies contributing to
-            Saudi Arabia's industrial development,
-            from petrochemicals and pharmaceuticals
-            to automotive manufacturing and advanced technologies.
-        </p>
-
+    <div class="si-home-hero__media">
+        <video
+            id="companiesBackgroundVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source
+                src="https://res.cloudinary.com/ew4jvlxr/video/upload/v1794411932/4607633-hd_1920_1080_30fps.mp4"
+                type="video/mp4"
+            >
+        </video>
     </div>
+
+    <div class="si-home-hero__shade"></div>
+
+    <div class="container si-home-hero__content">
+        <div class="row">
+            <div class="col-lg-9 col-xl-8">
+
+                <span class="si-eyebrow">
+                    EXPLORE SAUDI MANUFACTURING
+                </span>
+
+                <h1 class="si-home-hero__title">
+                    Industrial <span>Companies</span>
+                </h1>
+
+                <p class="si-home-hero__description">
+                    Discover the companies contributing to
+                    Saudi Arabia's industrial development,
+                    from petrochemicals and pharmaceuticals
+                    to automotive manufacturing and advanced technologies.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
 </section>
 
 <section class="si-section">
@@ -195,7 +221,11 @@
                     >
 
                         <img
+                            {% if company.image|slice:":4" == "http" %}
+                            src="{{ company.image }}"
+                            {% else %}
                             src="{% static company.image %}"
+                            {% endif %}
                             alt="Illustrative image of the {{ company.industry.name }} industry"
                             loading="lazy"
                         >
@@ -329,4 +359,36 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById(
+        "companiesBackgroundVideo"
+    );
+
+    if (!video) return;
+
+    const motion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function updatePlayback() {
+        if (motion.matches) {
+            video.pause();
+        } else {
+            video.play().catch((error) => {
+                console.error(
+                    "Companies background video failed to play.",
+                    error
+                );
+            });
+        }
+    }
+
+    updatePlayback();
+    motion.addEventListener("change", updatePlayback);
+});
+</script>
 {% endblock %}

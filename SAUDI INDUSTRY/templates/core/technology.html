@@ -5,22 +5,48 @@
 
 {% block content %}
 
-<section class="si-page-banner">
-    <div class="container text-center">
+<!-- TECHNOLOGY VIDEO HERO -->
+<section class="si-home-hero">
 
-        <span class="si-eyebrow">
-            {{ page.eyebrow }}
-        </span>
-
-        <h1 class="si-page-banner__title">
-            {{ page.title }}
-        </h1>
-
-        <p class="si-page-banner__description mx-auto">
-            {{ page.description }}
-        </p>
-
+    <div class="si-home-hero__media">
+        <video
+            id="technologyBackgroundVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source
+                src="https://res.cloudinary.com/ew4jvlxr/video/upload/v1794412739/Technology.mp4"
+                type="video/mp4"
+            >
+        </video>
     </div>
+
+    <div class="si-home-hero__shade"></div>
+
+    <div class="container si-home-hero__content">
+        <div class="row">
+            <div class="col-lg-9 col-xl-8">
+
+                <span class="si-eyebrow">
+                    {{ page.eyebrow }}
+                </span>
+
+                <h1 class="si-home-hero__title">
+                    {{ page.title }}
+                </h1>
+
+                <p class="si-home-hero__description">
+                    {{ page.description }}
+                </p>
+
+            </div>
+        </div>
+    </div>
+
 </section>
 
 
@@ -192,7 +218,11 @@
                     >
 
                         <img
+                            {% if item.image|slice:":4" == "http" %}
+                            src="{{ item.image }}"
+                            {% else %}
                             src="{% static item.image %}"
+                            {% endif %}
                             alt="Illustrative industrial sector photograph"
                             loading="lazy"
                         >
@@ -356,4 +386,36 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById(
+        "technologyBackgroundVideo"
+    );
+
+    if (!video) return;
+
+    const motion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function updatePlayback() {
+        if (motion.matches) {
+            video.pause();
+        } else {
+            video.play().catch((error) => {
+                console.error(
+                    "Technology background video failed to play.",
+                    error
+                );
+            });
+        }
+    }
+
+    updatePlayback();
+    motion.addEventListener("change", updatePlayback);
+});
+</script>
 {% endblock %}

@@ -8,19 +8,16 @@
 <!-- HERO SECTION -->
 <section class="si-home-hero">
 
-    <div
-        class="si-home-hero__media"
-        style="--hero-image: url('{% static home.hero.poster %}');"
-    >
+    <div class="si-home-hero__media">
 
         {% if home.hero.video_url %}
         <video
             id="homeBackgroundVideo"
+            autoplay
             muted
             loop
             playsinline
-            preload="none"
-            poster="{% static home.hero.poster %}"
+            preload="auto"
         >
             <source
                 src="{{ home.hero.video_url }}"
@@ -73,17 +70,6 @@
         </div>
 
     </div>
-
-    {% if home.hero.video_url %}
-    <button
-        id="videoToggle"
-        type="button"
-        class="si-video-toggle"
-        aria-label="Pause background video"
-    >
-        Pause video
-    </button>
-    {% endif %}
 
 </section>
 

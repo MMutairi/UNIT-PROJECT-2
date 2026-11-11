@@ -78,7 +78,7 @@
         "mining-metals",
         "food-manufacturing"
       ],
-      "image": "images/industries/pharmaceuticals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415616/AI_in_Manufacturing.jpg",
       "source_url": "https://www.nist.gov/publications/2026-roadmap-artificial-intelligence-and-machine-learning-smart-manufacturing"
     },
     {
@@ -115,7 +115,7 @@
         "food-manufacturing",
         "energy-technologies"
       ],
-      "image": "images/industries/petrochemicals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415619/Industrial_Automation.jpg",
       "source_url": "https://www.nist.gov/programs-projects/smart-manufacturing-systems-design-and-analysis-program"
     },
     {
@@ -152,7 +152,7 @@
         "energy-technologies",
         "pharmaceuticals"
       ],
-      "image": "images/industries/energy.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415580/Smart_Factories.jpg",
       "source_url": "https://www.nist.gov/programs-projects/smart-manufacturing-systems-design-and-analysis-program"
     },
     {
@@ -189,7 +189,7 @@
         "energy-technologies",
         "mining-metals"
       ],
-      "image": "images/industries/metals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415575/ndustrial_IoT.webp",
       "source_url": "https://csrc.nist.gov/glossary/term/industrial_internet_of_things"
     },
     {
@@ -226,7 +226,7 @@
         "mining-metals",
         "petrochemicals"
       ],
-      "image": "images/industries/automotive.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415573/Digital_Twins.jpg",
       "source_url": "https://www.nist.gov/programs-projects/digital-twins-advanced-manufacturing"
     }
   ]

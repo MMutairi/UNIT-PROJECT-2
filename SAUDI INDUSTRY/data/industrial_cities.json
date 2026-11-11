@@ -41,7 +41,7 @@
         "Red Sea port access",
         "Integrated industrial and residential infrastructure"
       ],
-      "image": "images/industries/petrochemicals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414334/%D9%81%D9%86%D8%AF%D9%82_%D8%A7%D9%84%D9%85%D9%88%D9%81%D9%86%D8%A8%D9%8A%D9%83_%D8%A8%D9%8A%D9%86%D8%A8%D8%B9_%D8%A7%D9%84%D8%B5%D9%86%D8%A7%D8%B9%D9%8A%D8%A9.png",
       "source_url": "https://www.rcjy.gov.sa/en/yanbu"
     },
     {
@@ -63,7 +63,7 @@
         "Phosphate industries",
         "Industrial utilities and infrastructure"
       ],
-      "image": "images/industries/metals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414480/bb1dfdab758976a1871acbab17b96ca0.jpg",
       "source_url": "https://www.rcjy.gov.sa/en/ras-al-khair"
     },
     {
@@ -86,7 +86,7 @@
         "Red Sea port connectivity",
         "Planned integrated industrial infrastructure"
       ],
-      "image": "images/industries/metals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414567/Jazan_City_for_Primary_and_Downstream_Industries.jpg",
       "source_url": "https://www.rcjy.gov.sa/en/jazan"
     },
     {
@@ -109,7 +109,7 @@
         "Pharmaceutical and packaging industries",
         "Industrial and logistics infrastructure"
       ],
-      "image": "images/industries/automotive.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414657/KAEC_Industrial_Valley.jpg",
       "source_url": "https://www.kaec.net/en/about/"
     },
     {
@@ -129,7 +129,7 @@
         "Location in the Riyadh industrial network",
         "Support for industrial investment"
       ],
-      "image": "images/industries/energy.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414739/Riyadh-2nd.-Industrial-City-e1706623304382.webp",
       "source_url": "https://saudipedia.com/en/timeline-of-industrial-cities-in-saudi-arabia"
     }
   ]

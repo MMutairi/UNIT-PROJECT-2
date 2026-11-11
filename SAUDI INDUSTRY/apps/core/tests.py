@@ -28,6 +28,27 @@ class TechnologyTests(SimpleTestCase):
             6
         )
 
+    def test_external_technology_image_url(self):
+        image_url = (
+            "https://res.cloudinary.com/ew4jvlxr/image/upload/"
+            "v1794415616/AI_in_Manufacturing.jpg"
+        )
+
+        response = self.client.get(
+            reverse("core:technology")
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
+
+        response = self.client.get(
+            reverse(
+                "core:technology_detail",
+                args=["ai-manufacturing"]
+            )
+        )
+
+        self.assertContains(response, f'src="{image_url}"')
+
     def test_search_case_insensitive(self):
         response = self.client.get(
             reverse("core:technology"),
@@ -238,6 +259,9 @@ class TechnologyTests(SimpleTestCase):
 
         for item in technologies:
             with self.subTest(slug=item["slug"]):
+                if item["image"].startswith(("http://", "https://")):
+                    continue
+
                 image_path = (
                     settings.BASE_DIR
                     / "static"

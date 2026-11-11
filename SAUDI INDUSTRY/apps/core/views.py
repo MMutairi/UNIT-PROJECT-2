@@ -28,8 +28,7 @@ def home(request):
     return render(request, "core/home.html", context)
 
 
-def load_technologies():
-    technology_data = load_json("technology.json")
+def load_technologies(technology_data):
     industries_data = load_json("industries.json")
 
     industry_lookup = {
@@ -51,8 +50,9 @@ def load_technologies():
 
 
 def technology(request):
-    page = load_json("technology.json")["page"]
-    all_technologies = load_technologies()
+    technology_data = load_json("technology.json")
+    page = technology_data["page"]
+    all_technologies = load_technologies(technology_data)
 
     search_query = request.GET.get("q", "").strip()
     selected_category = request.GET.get("category", "").strip()
@@ -126,7 +126,8 @@ def technology(request):
 
 
 def technology_detail(request, slug):
-    all_technologies = load_technologies()
+    technology_data = load_json("technology.json")
+    all_technologies = load_technologies(technology_data)
 
     item = next(
         (

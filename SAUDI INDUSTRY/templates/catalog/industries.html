@@ -5,25 +5,50 @@
 
 {% block content %}
 
-<!-- PAGE HEADER -->
-<section class="si-page-banner">
-    <div class="container text-center">
+<!-- INDUSTRIES VIDEO HERO -->
+<section class="si-home-hero">
 
-        <span class="si-eyebrow">
-            EXPLORE SAUDI MANUFACTURING
-        </span>
-
-        <h1 class="si-page-banner__title">
-            Our Industries
-        </h1>
-
-        <p class="si-page-banner__description mx-auto">
-            Discover the industries shaping Saudi Arabia's
-            manufacturing landscape, from petrochemicals
-            and pharmaceuticals to advanced technologies.
-        </p>
-
+    <div class="si-home-hero__media">
+        <video
+            id="industriesBackgroundVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source
+                src="https://res.cloudinary.com/ew4jvlxr/video/upload/v1794410277/15057575_2560_1440_30fps.mp4"
+                type="video/mp4"
+            >
+        </video>
     </div>
+
+    <div class="si-home-hero__shade"></div>
+
+    <div class="container si-home-hero__content">
+        <div class="row">
+            <div class="col-lg-9 col-xl-8">
+
+                <span class="si-eyebrow">
+                    EXPLORE SAUDI MANUFACTURING
+                </span>
+
+                <h1 class="si-home-hero__title">
+                    Our <span>Industries</span>
+                </h1>
+
+                <p class="si-home-hero__description">
+                    Discover the industries shaping Saudi Arabia's
+                    manufacturing landscape, from petrochemicals
+                    and pharmaceuticals to advanced technologies.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
 </section>
 
 
@@ -243,4 +268,36 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById(
+        "industriesBackgroundVideo"
+    );
+
+    if (!video) return;
+
+    const motion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function updatePlayback() {
+        if (motion.matches) {
+            video.pause();
+        } else {
+            video.play().catch((error) => {
+                console.error(
+                    "Industries background video failed to play.",
+                    error
+                );
+            });
+        }
+    }
+
+    updatePlayback();
+    motion.addEventListener("change", updatePlayback);
+});
+</script>
 {% endblock %}

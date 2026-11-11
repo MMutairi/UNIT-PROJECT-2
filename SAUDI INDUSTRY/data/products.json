@@ -28,7 +28,7 @@
         "Industrial pipes",
         "Plastic films"
       ],
-      "image": "images/industries/petrochemicals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794414893/images_1.jpg",
       "source_url": "https://www.sabic.com/en/products/polymers/polyethylene-pe"
     },
     {
@@ -60,7 +60,7 @@
         "General healthcare treatments",
         "Oral medication delivery"
       ],
-      "image": "images/industries/pharmaceuticals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415165/Pharmaceutical_Tablets.jpg",
       "source_url": "https://www.spimaco.com.sa/who-we-are/"
     },
     {
@@ -91,7 +91,7 @@
         "Beverages",
         "Household dairy use"
       ],
-      "image": "images/industries/food.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415157/Fresh_Milk.jpg",
       "source_url": "https://www.almarai.com/en/brands/almarai/liquid-dairy/fresh-milk"
     },
     {
@@ -123,7 +123,7 @@
         "Industrial components",
         "Manufacturing supply chains"
       ],
-      "image": "images/industries/metals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415149/Rolled_Aluminium.jpg",
       "source_url": "https://www.maaden.com/discover-us/core-business-units/aluminum"
     },
     {
@@ -155,7 +155,7 @@
         "Soil nutrient management",
         "Commercial farming"
       ],
-      "image": "images/industries/metals.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415170/Phosphate_Fertilizer.jpg",
       "source_url": "https://www.maaden.com/discover-us/core-business-units/phosphate"
     },
     {
@@ -189,7 +189,7 @@
         "Industrial facilities",
         "Power protection systems"
       ],
-      "image": "images/industries/energy.jpg",
+      "image": "https://res.cloudinary.com/ew4jvlxr/image/upload/v1794415161/Electrical_Distribution_Boards.jpg",
       "source_url": "https://www.alfanar.com/company/request-a-visit"
     }
   ]

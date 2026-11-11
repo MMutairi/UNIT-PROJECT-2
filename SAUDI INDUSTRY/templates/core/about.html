@@ -5,22 +5,40 @@
 
 {% block content %}
 
-<section class="si-page-banner si-about-banner">
-    <div class="container">
+<section class="si-home-hero si-about-banner">
 
-        <div class="row g-5 align-items-center">
+    <div class="si-home-hero__media">
+        <video
+            id="aboutBackgroundVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source
+                src="https://res.cloudinary.com/ew4jvlxr/video/upload/v1794413288/SAUDI_INDUSTRY.mp4"
+                type="video/mp4"
+            >
+        </video>
+    </div>
 
-            <div class="col-lg-7">
+    <div class="si-home-hero__shade"></div>
+
+    <div class="container si-home-hero__content">
+        <div class="row">
+            <div class="col-lg-9 col-xl-8">
 
                 <span class="si-eyebrow">
                     {{ about.hero.eyebrow }}
                 </span>
 
-                <h1 class="si-page-banner__title">
+                <h1 class="si-home-hero__title">
                     {{ about.hero.title }}
                 </h1>
 
-                <p class="si-page-banner__description">
+                <p class="si-home-hero__description">
                     {{ about.hero.description }}
                 </p>
 
@@ -35,7 +53,7 @@
 
                     <a
                         href="#about-explore"
-                        class="btn si-outline-btn"
+                        class="btn si-outline-btn text-white"
                     >
                         Explore the Website
                     </a>
@@ -43,28 +61,9 @@
                 </div>
 
             </div>
-
-            <div class="col-lg-5">
-
-                <figure class="si-about-hero-image">
-
-                    <img
-                        src="{% static about.hero.image %}"
-                        alt="{{ about.hero.image_alt }}"
-                        class="img-fluid"
-                    >
-
-                    <figcaption>
-                        Illustrative industrial photograph.
-                    </figcaption>
-
-                </figure>
-
-            </div>
-
         </div>
-
     </div>
+
 </section>
 
 <section id="about-story" class="si-section">
@@ -411,4 +410,36 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById(
+        "aboutBackgroundVideo"
+    );
+
+    if (!video) return;
+
+    const motion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+    function updatePlayback() {
+        if (motion.matches) {
+            video.pause();
+        } else {
+            video.play().catch((error) => {
+                console.error(
+                    "About background video failed to play.",
+                    error
+                );
+            });
+        }
+    }
+
+    updatePlayback();
+    motion.addEventListener("change", updatePlayback);
+});
+</script>
 {% endblock %}

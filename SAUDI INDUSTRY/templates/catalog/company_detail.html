@@ -59,7 +59,11 @@
                 <div class="si-detail-image">
 
                     <img
+                        {% if company.image|slice:":4" == "http" %}
+                        src="{{ company.image }}"
+                        {% else %}
                         src="{% static company.image %}"
+                        {% endif %}
                         alt="Illustrative photograph of the {{ company.industry.name }} sector"
                         class="img-fluid"
                         loading="lazy"
