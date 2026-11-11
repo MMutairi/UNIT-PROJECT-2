@@ -1,12 +1,17 @@
 
+{% load static %}
+
 <nav class="navbar navbar-expand-xl si-navbar sticky-top">
     <div class="container">
 
         <!-- Logo -->
         <a class="navbar-brand si-brand"
            href="{% url 'core:home' %}">
-            <span class="si-brand-icon">SI</span>
-            <span>SAUDI <strong>INDUSTRY</strong></span>
+            <img
+                class="si-brand-logo"
+                src="{% static 'icons/Saudi Industrial logo.png' %}"
+                alt="Saudi Industry"
+            >
         </a>
 
         <!-- Theme and Mobile Menu -->
