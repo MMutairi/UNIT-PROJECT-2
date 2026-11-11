@@ -1863,3 +1863,238 @@ a {
         transform: none;
     }
 }
+/* =============================
+    INDUSTRIAL GALLERY
+============================= */
+
+/* Licensing notice */
+
+.si-gallery-notice {
+    margin-bottom: 28px;
+    color: var(--si-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+/* Main gallery cards */
+
+.si-gallery-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 16px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.si-gallery-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--si-green);
+}
+
+/* Image and video */
+
+.si-gallery-card__media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+
+    background: var(--si-surface-alt);
+}
+
+.si-gallery-card__media-button {
+    padding: 0;
+    border: 0;
+    cursor: zoom-in;
+}
+
+.si-gallery-card__media img,
+.si-gallery-card__media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.si-gallery-card__media img {
+    transition: transform 0.3s ease;
+}
+
+.si-gallery-card__media-button:hover img {
+    transform: scale(1.05);
+}
+
+.si-gallery-card__media-button:focus-visible {
+    outline: 3px solid var(--si-green-hover);
+    outline-offset: -3px;
+}
+
+/* Card content */
+
+.si-gallery-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+    padding: 24px;
+}
+
+.si-gallery-card__labels {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.si-gallery-card__type,
+.si-gallery-card__category {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.si-gallery-card__type {
+    background: var(--si-surface-alt);
+    border: 1px solid var(--si-border);
+    color: var(--si-green-hover);
+}
+
+.si-gallery-card__category {
+    color: var(--si-muted);
+    border: 1px solid var(--si-border);
+}
+
+.si-gallery-card__body h3 {
+    color: var(--si-text);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.si-gallery-card__description {
+    color: var(--si-muted);
+    line-height: 1.7;
+    margin: 0;
+}
+
+.si-gallery-card__origin {
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Credits and licensing */
+
+.si-gallery-card__credits {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: auto;
+    padding-top: 15px;
+
+    border-top: 1px solid var(--si-border);
+
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+}
+
+.si-gallery-card__credits .si-text-link {
+    font-size: 0.8rem;
+}
+
+/* Image preview modal */
+
+.si-gallery-modal {
+    background: var(--si-surface);
+    color: var(--si-text);
+    border: 1px solid var(--si-border);
+}
+
+.si-gallery-modal .modal-header {
+    border-color: var(--si-border);
+}
+
+.si-gallery-modal__image {
+    display: block;
+    width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* Pending download cards */
+
+.si-gallery-pending-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+
+    height: 100%;
+    padding: 22px;
+
+    background: var(--si-surface);
+    border: 1px solid var(--si-border);
+    border-radius: 14px;
+}
+
+.si-gallery-pending-card h3 {
+    color: var(--si-text);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 12px 0;
+}
+
+.si-gallery-pending-card p {
+    color: var(--si-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    margin: 0;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .si-gallery-card__body {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .si-gallery-card__media {
+        aspect-ratio: 4 / 3;
+    }
+
+    .si-gallery-pending-card {
+        padding: 18px;
+    }
+}
+
+/* Motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    .si-gallery-card,
+    .si-gallery-card__media img {
+        transition: none;
+    }
+
+    .si-gallery-card:hover,
+    .si-gallery-card__media-button:hover img {
+        transform: none;
+    }
+}

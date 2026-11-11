@@ -1,3 +1,4 @@
+from django.contrib.staticfiles import finders
 from django.http import Http404
 from django.shortcuts import render
 
@@ -156,7 +157,87 @@ def vision2030(request):
 
 
 def gallery(request):
-    return render(request, "core/gallery.html")
+    gallery_data = load_json("gallery.json")
+
+    all_media = [
+        {
+            **item,
+            "available": (
+                bool(finders.find(item["file"]))
+                if item["type"] == "image"
+                else item.get("video_url", "").startswith("https://")
+            )
+        }
+        for item in gallery_data["media"]
+    ]
+
+    available_media = [
+        item for item in all_media
+        if item["available"]
+    ]
+
+    pending_media = [
+        item for item in all_media
+        if not item["available"]
+    ]
+
+    search_query = request.GET.get("q", "").strip()
+    selected_type = request.GET.get("type", "").strip()
+    selected_category = request.GET.get("category", "").strip()
+
+    categories = sorted({
+        item["category"]
+        for item in all_media
+    })
+
+    filtered_media = available_media
+
+    if search_query:
+        query = search_query.casefold()
+
+        filtered_media = [
+            item
+            for item in filtered_media
+            if query in " ".join([
+                item["title"],
+                item["description"],
+                item["category"],
+                item["origin_note"],
+                item["creator"],
+            ]).casefold()
+        ]
+
+    if selected_type:
+        filtered_media = [
+            item
+            for item in filtered_media
+            if item["type"] == selected_type
+        ]
+
+    if selected_category:
+        filtered_media = [
+            item
+            for item in filtered_media
+            if item["category"] == selected_category
+        ]
+
+    context = {
+        "page": gallery_data["page"],
+        "items": filtered_media,
+        "pending_media": pending_media,
+        "categories": categories,
+        "search_query": search_query,
+        "selected_type": selected_type,
+        "selected_category": selected_category,
+        "available_total": len(available_media),
+        "pending_total": len(pending_media),
+    }
+
+    return render(
+        request,
+        "core/gallery.html",
+        context
+    )
 
 
 def about(request):

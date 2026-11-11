@@ -1,4 +1,7 @@
 
+from pathlib import PurePosixPath
+from unittest.mock import patch
+
 from django.conf import settings
 from django.test import SimpleTestCase
 from django.urls import reverse
@@ -517,4 +520,252 @@ class Vision2030Tests(SimpleTestCase):
         self.assertContains(
             response,
             "Sources and Information"
+        )
+
+
+class GalleryTests(SimpleTestCase):
+
+    def test_gallery_page(self):
+        response = self.client.get(
+            reverse("core:gallery")
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "core/gallery.html"
+        )
+
+        slugs = {
+            item["slug"]
+            for item in response.context["items"]
+        }
+
+        self.assertTrue({
+            "petrochemical-processing",
+            "pharmaceutical-manufacturing",
+            "automotive-assembly",
+            "dairy-processing",
+            "mineral-and-metal-processing",
+            "electrical-production",
+        }.issubset(slugs))
+
+    def test_image_filter(self):
+        response = self.client.get(
+            reverse("core:gallery"),
+            {"type": "image"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        for item in response.context["items"]:
+            self.assertEqual(item["type"], "image")
+
+    def test_video_filter(self):
+        response = self.client.get(
+            reverse("core:gallery"),
+            {"type": "video"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        for item in response.context["items"]:
+            self.assertEqual(item["type"], "video")
+
+    def test_search_case_insensitive(self):
+        response = self.client.get(
+            reverse("core:gallery"),
+            {"q": "DaIrY"}
+        )
+
+        slugs = {
+            item["slug"]
+            for item in response.context["items"]
+        }
+
+        self.assertEqual(
+            slugs,
+            {"dairy-processing"}
+        )
+
+    def test_category_filter(self):
+        response = self.client.get(
+            reverse("core:gallery"),
+            {"category": "Automotive"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        for item in response.context["items"]:
+            self.assertEqual(
+                item["category"],
+                "Automotive"
+            )
+
+    def test_combined_filters(self):
+        response = self.client.get(
+            reverse("core:gallery"),
+            {
+                "q": "automotive",
+                "type": "image",
+                "category": "Automotive"
+            }
+        )
+
+        items = response.context["items"]
+
+        self.assertEqual(len(items), 1)
+        self.assertEqual(
+            items[0]["slug"],
+            "automotive-assembly"
+        )
+
+    def test_empty_results(self):
+        response = self.client.get(
+            reverse("core:gallery"),
+            {"q": "missing-gallery-xyz"}
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.context["items"]),
+            0
+        )
+        self.assertContains(
+            response,
+            "No Media Found"
+        )
+
+    def test_unique_ids_and_slugs(self):
+        media = load_json("gallery.json")["media"]
+
+        ids = [item["id"] for item in media]
+        slugs = [item["slug"] for item in media]
+
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertEqual(len(slugs), len(set(slugs)))
+        self.assertEqual(len(media), 14)
+
+    def test_safe_media_paths(self):
+        media = load_json("gallery.json")["media"]
+
+        for item in media:
+            with self.subTest(slug=item["slug"]):
+                path = PurePosixPath(item["file"])
+
+                self.assertNotIn("..", path.parts)
+                self.assertFalse(path.is_absolute())
+
+                self.assertTrue(
+                    item["file"].startswith(
+                        ("images/", "videos/")
+                    )
+                )
+
+    def test_existing_image_files(self):
+        media = load_json("gallery.json")["media"]
+
+        existing = [
+            item for item in media
+            if item["id"] <= 6
+        ]
+
+        for item in existing:
+            with self.subTest(slug=item["slug"]):
+                path = (
+                    settings.BASE_DIR
+                    / "static"
+                    / item["file"]
+                )
+
+                self.assertTrue(path.is_file())
+
+    def test_video_posters_exist(self):
+        media = load_json("gallery.json")["media"]
+
+        videos = [
+            item for item in media
+            if item["type"] == "video"
+        ]
+
+        self.assertEqual(len(videos), 5)
+
+        for item in videos:
+            with self.subTest(slug=item["slug"]):
+                path = (
+                    settings.BASE_DIR
+                    / "static"
+                    / item["poster"]
+                )
+
+                self.assertTrue(path.is_file())
+
+    def test_licensed_media_metadata(self):
+        media = load_json("gallery.json")["media"]
+
+        licensed = [
+            item for item in media
+            if item["id"] > 6
+        ]
+
+        self.assertEqual(len(licensed), 8)
+
+        for item in licensed:
+            with self.subTest(slug=item["slug"]):
+                self.assertTrue(item["creator"])
+                self.assertTrue(
+                    item["source_url"].startswith("https://")
+                )
+                self.assertTrue(item["license"])
+                self.assertTrue(
+                    item["license_url"].startswith("https://")
+                )
+
+    def test_image_preview_modal(self):
+        response = self.client.get(
+            reverse("core:gallery")
+        )
+
+        self.assertContains(
+            response,
+            'data-bs-toggle="modal"'
+        )
+        self.assertContains(
+            response,
+            "galleryPreview1"
+        )
+
+    def test_video_player_with_cdn_url(self):
+        gallery_data = load_json("gallery.json")
+
+        for item in gallery_data["media"]:
+            if item["type"] == "video":
+                item["video_url"] = (
+                    f"https://cdn.example.test/{item['file']}"
+                )
+
+        with patch(
+            "apps.core.views.load_json",
+            return_value=gallery_data
+        ):
+            response = self.client.get(
+                reverse("core:gallery"),
+                {"type": "video"}
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.context["items"]),
+            5
+        )
+
+        self.assertContains(
+            response,
+            "<video",
+            count=5
+        )
+
+        self.assertContains(
+            response,
+            "https://cdn.example.test/videos/gallery/automotive-robotics.mp4"
         )
