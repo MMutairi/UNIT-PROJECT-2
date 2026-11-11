@@ -667,7 +667,7 @@ class GalleryTests(SimpleTestCase):
 
         existing = [
             item for item in media
-            if item["id"] <= 6
+            if item["type"] == "image"
         ]
 
         for item in existing:
@@ -768,4 +768,171 @@ class GalleryTests(SimpleTestCase):
         self.assertContains(
             response,
             "https://cdn.example.test/videos/gallery/automotive-robotics.mp4"
+        )
+
+class AboutTests(SimpleTestCase):
+
+    def test_about_page(self):
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_about_template(self):
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        self.assertTemplateUsed(
+            response,
+            "core/about.html"
+        )
+
+    def test_about_context(self):
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        self.assertIn("about", response.context)
+
+        self.assertEqual(
+            response.context["about"]["hero"]["title"],
+            "Discover SAUDI INDUSTRY"
+        )
+
+    def test_hero_image_exists(self):
+        about = load_json("about.json")
+
+        image_path = (
+            settings.BASE_DIR
+            / "static"
+            / about["hero"]["image"]
+        )
+
+        self.assertTrue(image_path.is_file())
+
+    def test_mission_and_vision(self):
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        self.assertContains(
+            response,
+            "Our Mission"
+        )
+
+        self.assertContains(
+            response,
+            "Our Vision"
+        )
+
+    def test_seven_project_sections(self):
+        about = load_json("about.json")
+
+        sections = about["sections"]
+
+        self.assertEqual(len(sections), 7)
+
+        for section in sections:
+            with self.subTest(section=section["title"]):
+                self.assertTrue(section["title"])
+                self.assertTrue(section["description"])
+                self.assertTrue(section["route_name"])
+
+    def test_section_routes_are_valid(self):
+        about = load_json("about.json")
+
+        for section in about["sections"]:
+            with self.subTest(route=section["route_name"]):
+                url = reverse(section["route_name"])
+
+                self.assertTrue(url.startswith("/"))
+
+    def test_section_links_render(self):
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        about = load_json("about.json")
+
+        for section in about["sections"]:
+            with self.subTest(section=section["title"]):
+                self.assertContains(
+                    response,
+                    reverse(section["route_name"])
+                )
+
+    def test_build_process(self):
+        about = load_json("about.json")
+
+        steps = about["build_process"]
+
+        self.assertEqual(len(steps), 4)
+
+        for step in steps:
+            self.assertTrue(step["title"])
+            self.assertTrue(step["description"])
+
+    def test_technology_stack(self):
+        about = load_json("about.json")
+
+        stack = about["technology_stack"]
+
+        self.assertEqual(len(stack), 6)
+
+        self.assertIn("Python", stack)
+        self.assertIn("Django", stack)
+        self.assertIn("Bootstrap 5", stack)
+
+    def test_editorial_principles(self):
+        about = load_json("about.json")
+
+        principles = about["editorial_principles"]
+
+        self.assertEqual(len(principles), 4)
+
+        names = {
+            item["title"]
+            for item in principles
+        }
+
+        self.assertIn("Source Transparency", names)
+        self.assertIn("Responsible Media Use", names)
+
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        self.assertContains(
+            response,
+            "Editorial Principles"
+        )
+
+    def test_disclaimer_and_repository(self):
+        about = load_json("about.json")
+
+        self.assertIn(
+            "independent educational",
+            about["disclaimer"]["text"]
+        )
+
+        self.assertTrue(
+            about["repository"]["url"].startswith(
+                "https://github.com/"
+            )
+        )
+
+        response = self.client.get(
+            reverse("core:about")
+        )
+
+        self.assertContains(
+            response,
+            "Educational Project Disclaimer"
+        )
+
+        self.assertContains(
+            response,
+            about["repository"]["url"]
         )

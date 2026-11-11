@@ -241,4 +241,9 @@ def gallery(request):
 
 
 def about(request):
-    return render(request, "core/about.html")
+    about_data = load_json("about.json")
+    return render(
+        request,
+        "core/about.html",
+        {"about": about_data}
+    )
